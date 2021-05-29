@@ -40,6 +40,14 @@ namespace WpfApp2
 
         void DoneButton_Click(object sender, RoutedEventArgs e)
         {
+            Action[] TextWipe = new Action[]
+                {
+                    FirstNameTextBox.Clear,
+                    SecondNameTextBox.Clear,
+                    PasswordTextBox.Clear,
+                    PasswordTextBox2.Clear,
+                    MailTextBox.Clear
+                };
             string[] fields = new string[5];
             /*
              0 - first name
@@ -50,19 +58,19 @@ namespace WpfApp2
              */
             DateTime? BirthDay = default;
             List<string> errors = new List<string>();
-            if (FirstNameTextBox.Text.Length >= 3)
-            {
-                fields[0] = FirstNameTextBox.Text;
-                NameError.Visibility = Visibility.Hidden;
-            }
-            else
-            {
-                errors.Add("Имя слишком короткое!");
-                NameError.Visibility = Visibility.Visible;
-            }
             if (RegMode)    //If you're creating new account
             {
-                if ((PasswordTextBox.Text == PasswordTextBox2.Text) & (PasswordTextBox.Text.Length >= 8))
+                if (FirstNameTextBox.Text.Length >= 3)
+                {
+                    fields[0] = FirstNameTextBox.Text;
+                    NameError.Visibility = Visibility.Hidden;
+                }
+                else
+                {
+                    errors.Add("Имя слишком короткое!");
+                    NameError.Visibility = Visibility.Visible;
+                }
+                if ((PasswordTextBox.Text == PasswordTextBox2.Text) && (PasswordTextBox.Text.Length >= 8))
                 {
                     fields[1] = PasswordTextBox.Text;
                     PasswordError.Visibility = Visibility.Hidden;
@@ -129,14 +137,65 @@ namespace WpfApp2
             else
             {
                 if (RegMode)
+                {
                     Users.Add(new Account(fields[0], fields[2], fields[1], fields[3], (DateTime)BirthDay, fields[4]));
+                    for (int i = 0; i < 5; i++)
+                        fields[i] = null;
+                    foreach (Action method in TextWipe)
+                        method.Invoke();
+                    GenderSelecter.SelectedIndex = default;
+                    BirthSelecter.SelectedDate = default;
+                }
                 // Here should be ELSE block but I didn't make a Data Base or JSON saving
             }
+        }
+
+        void SwapButton_Click(object sender, RoutedEventArgs e)
+        {
+            RegMode = !RegMode;
+            if (RegMode)
+            {
+                PasswordTextBox2.Visibility = Visibility.Visible;
+                PasswordLabel2.Visibility = Visibility.Visible;
+                MailTextBox.Visibility = Visibility.Visible;
+                MailLabel.Visibility = Visibility.Visible;
+                SecondNameTextBox.Visibility = Visibility.Visible;
+                SecondNameLabel.Visibility = Visibility.Visible;
+                BirthSelecter.Visibility = Visibility.Visible;
+                DateLabel.Visibility = Visibility.Visible;
+                GenderSelecter.Visibility = Visibility.Visible;
+                GenderLabel.Visibility = Visibility.Visible;
+                MainLabel.Content = "Регистрация";
+                Terms.Content = "I agree all rules...";
+            }
+            else
+            {
+                PasswordTextBox2.Visibility = Visibility.Hidden;
+                PasswordLabel2.Visibility = Visibility.Hidden;
+                MailTextBox.Visibility = Visibility.Hidden;
+                MailLabel.Visibility = Visibility.Hidden;
+                SecondNameTextBox.Visibility = Visibility.Hidden;
+                SecondNameLabel.Visibility = Visibility.Hidden;
+                BirthSelecter.Visibility = Visibility.Hidden;
+                DateLabel.Visibility = Visibility.Hidden;
+                GenderSelecter.Visibility = Visibility.Hidden;
+                GenderLabel.Visibility = Visibility.Hidden;
+                MainLabel.Content = "Авторизация";
+                Terms.Content = "I'm not a robot";
+            }
+        }
+
+        void Terms_Click(object sender, RoutedEventArgs e)
+        {
+            DoneButton.IsEnabled = (bool)Terms.IsChecked;
         }
     }
 
     class Account
     {
+        string name, second_name, password, mail;
+        byte gender;
+        DateTime date;
         static Dictionary<string, byte> GenderValuePairs = new Dictionary<string, byte>
         {
             {"Other", 0},
@@ -148,12 +207,12 @@ namespace WpfApp2
         {
             get
             {
-                return Name;
+                return name;
             }
             internal set
             {
                 if (!long.TryParse(value, out long _) & !char.TryParse(value, out char _))
-                    Name = value;
+                    name = value;
                 else
                 {
                     Console.WriteLine("Недопустимое имя аккаунта");
@@ -164,12 +223,12 @@ namespace WpfApp2
         {
             get
             {
-                return SecondName;
+                return second_name;
             }
             internal set
             {
                 if (!long.TryParse(value, out long _) & !char.TryParse(value, out char _))
-                    Name = value;
+                    second_name = value;
                 else
                     Console.WriteLine("Недопустимое второе имя");
             }
@@ -178,12 +237,12 @@ namespace WpfApp2
         {
             get
             {
-                return Date;
+                return date;
             }
             private set
             {
                 if (value > new DateTime(1900, 1, 1) & value < DateTime.Now.AddYears(-6))
-                    Date = value;
+                    date = value;
                 else
                     Console.WriteLine("Недопустимая дата рождения");
             }
@@ -192,15 +251,14 @@ namespace WpfApp2
         {
             get
             {
-                return Gender;
+                return gender;
             }
             private set
             {
                 if (value >= 0 & value <= 3)
-                    Gender = value;
+                    gender = value;
             }
         }
-        private string password, mail;
         public Account(string name, string mail, string password, string second = null, DateTime date = default, string gender = null)
         {
             Name = name;

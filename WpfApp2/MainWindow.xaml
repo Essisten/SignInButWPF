@@ -42,18 +42,18 @@
         <Label x:Name="MainLabel" Content="Авторизация" HorizontalAlignment="Center" Grid.ColumnSpan="2" Grid.Column="1" Grid.Row="1" Background="#00000000" Foreground="#FF454545" FontWeight="Bold" FontSize="18"/>
         <TextBox x:Name="FirstNameTextBox" Grid.ColumnSpan="1" Grid.Column="2" Grid.Row="3" VerticalContentAlignment="Center"/>
         <TextBox x:Name="PasswordTextBox" Grid.ColumnSpan="1" Grid.Column="2" Grid.Row="5" VerticalContentAlignment="Center"/>
-        <TextBox x:Name="SecondNameTextBox" Grid.ColumnSpan="1" Grid.Column="2" Grid.Row="11" VerticalContentAlignment="Center"/>
-        <TextBox x:Name="PasswordTextBox2" Grid.ColumnSpan="1" Grid.Column="2" Grid.Row="7" VerticalContentAlignment="Center"/>
-        <TextBox x:Name="MailTextBox" Grid.ColumnSpan="1" Grid.Column="2" Grid.Row="9" VerticalContentAlignment="Center"/>
-        <DatePicker x:Name="BirthSelecter" Grid.Column="2" Grid.Row="13"/>
-        <ComboBox x:Name="GenderSelecter" Grid.Column="2" Grid.Row="15">
+        <TextBox x:Name="SecondNameTextBox" Grid.ColumnSpan="1" Grid.Column="2" Grid.Row="11" VerticalContentAlignment="Center" Visibility="Hidden"/>
+        <TextBox x:Name="PasswordTextBox2" Grid.ColumnSpan="1" Grid.Column="2" Grid.Row="7" VerticalContentAlignment="Center" Visibility="Hidden"/>
+        <TextBox x:Name="MailTextBox" Grid.ColumnSpan="1" Grid.Column="2" Grid.Row="9" VerticalContentAlignment="Center" Visibility="Hidden"/>
+        <DatePicker x:Name="BirthSelecter" Grid.Column="2" Grid.Row="13" Visibility="Hidden"/>
+        <ComboBox x:Name="GenderSelecter" Grid.Column="2" Grid.Row="15" Visibility="Hidden">
             <ComboBoxItem Content="Female"/>
             <ComboBoxItem Content="Male"/>
             <ComboBoxItem Content="Robot"/>
             <ComboBoxItem Content="Other"/>
         </ComboBox>
-        <CheckBox x:Name="Terms" Content="I agree all rules..." Grid.ColumnSpan="2" Grid.Column="1" Grid.Row="17" HorizontalAlignment="Center"/>
-        <Button x:Name="DoneButton" Grid.ColumnSpan="2" Content="Done" Grid.Column="1" Grid.Row="19" FontWeight="Bold" Click="DoneButton_Click">
+        <CheckBox x:Name="Terms" Content="I agree all rules..." Grid.ColumnSpan="2" Grid.Column="1" Grid.Row="17" HorizontalAlignment="Center" Click="Terms_Click"/>
+        <Button x:Name="DoneButton" Grid.ColumnSpan="2" Content="Done" Grid.Column="1" Grid.Row="19" FontWeight="Bold" Click="DoneButton_Click" IsEnabled="False">
             <Button.Background>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="Black" Offset="0"/>
@@ -61,7 +61,7 @@
                 </LinearGradientBrush>
             </Button.Background>
         </Button>
-        <Button x:Name="SwapButton" Grid.ColumnSpan="2" Content="Swap" Grid.Column="1" Grid.Row="21" FontWeight="Bold">
+        <Button x:Name="SwapButton" Grid.ColumnSpan="2" Content="Swap" Grid.Column="1" Grid.Row="21" FontWeight="Bold" Click="SwapButton_Click">
             <Button.Background>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="Black" Offset="0"/>
@@ -71,11 +71,11 @@
         </Button>
         <Label x:Name="NameLabel" Content="Name" Grid.Row="3" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Top" FontWeight="Bold"/>
         <Label x:Name="PasswordLabel" Content="Password" Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontWeight="Bold"/>
-        <Label x:Name="SecondNameLabel" Content="Second Name" Grid.Row="11" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontWeight="Bold" FontSize="9"/>
-        <Label x:Name="PasswordLabel2" Content="Repeat password" Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontWeight="Bold" FontSize="9"/>
-        <Label x:Name="MailLabel" Content="e-mail" Grid.Row="9" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontWeight="Bold"/>
-        <Label x:Name="DateLabel" Content="Birth date" Grid.Row="13" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontWeight="Bold" FontSize="11"/>
-        <Label x:Name="GenderLabel" Content="Gender" Grid.Row="15" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontWeight="Bold"/>
+        <Label x:Name="SecondNameLabel" Content="Second Name" Grid.Row="11" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontWeight="Bold" FontSize="9" Visibility="Hidden"/>
+        <Label x:Name="PasswordLabel2" Content="Repeat password" Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontWeight="Bold" FontSize="9" Visibility="Hidden"/>
+        <Label x:Name="MailLabel" Content="e-mail" Grid.Row="9" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontWeight="Bold" Visibility="Hidden"/>
+        <Label x:Name="DateLabel" Content="Birth date" Grid.Row="13" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontWeight="Bold" FontSize="11" Visibility="Hidden"/>
+        <Label x:Name="GenderLabel" Content="Gender" Grid.Row="15" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontWeight="Bold" Visibility="Hidden"/>
         <Image x:Name="WarningImage" HorizontalAlignment="Left" Grid.Row="3" Grid.Column="3"/>
         <Label x:Name="NameError" Content="!" Foreground="Red" Grid.Column="3" Grid.Row="3" FontSize="14" Visibility="Hidden"/>
         <Label x:Name="PasswordError" Content="!" Foreground="Red" Grid.Column="3" Grid.Row="5" FontSize="14" Visibility="Hidden"/>
@@ -83,6 +83,5 @@
         <Label x:Name="MailError" Content="!" Foreground="Red" Grid.Column="3" Grid.Row="9" FontSize="14" Visibility="Hidden"/>
         <Label x:Name="DateError" Content="!" Foreground="Red" Grid.Column="3" Grid.Row="13" FontSize="14" Visibility="Hidden"/>
         <Label x:Name="GenderError" Content="!" Foreground="Red" Grid.Column="3" Grid.Row="15" FontSize="14" Visibility="Hidden"/>
-        <Label x:Name="TermsError" Content="!" Foreground="Red" Grid.Column="3" Grid.Row="17" FontSize="14" Visibility="Hidden"/>
     </Grid>
 </Window>
